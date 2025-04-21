@@ -5,16 +5,17 @@ import os
 
 # Access the API key from Streamlit secrets
 CAREERONESTOP_API_KEY = st.secrets["COS_API_KEY"]
-CAREERONESTOP_USER_ID = st.secrets["COS_USER_ID"] # Assuming you might have a user ID as a secret too
+CAREERONESTOP_USER_ID = st.secrets["COS_USER_ID"]
 BASE_URL = "https://api.careeronestop.org/v1"
 
 # Function to make the API request
-def fetch_careeronestop_data(api_url, params=None):
+def fetch_careeronestop_data(api_url, headers=None, params=None):
     """
-    Makes a GET request to the specified CareerOneStop API URL.
+    Makes a GET request to the specified CareerOneStop API URL with optional headers and parameters.
 
     Args:
         api_url (str): The full URL of the CareerOneStop API endpoint.
+        headers (dict, optional): A dictionary of HTTP headers to include in the request. Defaults to None.
         params (dict, optional): A dictionary of query parameters to include in the request. Defaults to None.
 
     Returns:
@@ -22,7 +23,7 @@ def fetch_careeronestop_data(api_url, params=None):
                      or None if an error occurred.
     """
     try:
-        response = requests.get(api_url, params=params)
+        response = requests.get(api_url, headers=headers, params=params)
         response.raise_for_status()  # Raise an exception for bad status codes (4xx or 5xx)
         data = response.json()
         return data
@@ -33,26 +34,16 @@ def fetch_careeronestop_data(api_url, params=None):
         st.error(f"Error decoding JSON response: {e}")
         return None
 
-# --- Example usage within your Streamlit app for certifications ---
-
 st.title("Career Certification Lookup")
 
-keyword = st.text_input("Enter a keyword (e.g., 'welding', 'IT'):")
-location = st.text_input("Enter a location (e.g., 'New York, NY'):")
+keyword = st.text_input("Keyword:")
 
 if st.button("Search Certifications"):
     if keyword:
-        api_endpoint = f"{BASE_URL}/certificationfinder/"
-        user_id = CAREERONESTOP_USER_ID
-        api_key = CAREERONESTOP_API_KEY
-
-        query_params = {
-            "keyword": keyword,
-            "location": location,
-            "format": "json",
-            "user_id": user_id,
-            "key": api_key
-            # Add other relevant parameters as needed
+        api_endpoint = f"{BASE_URL}/certificationfinder/{CAREERONESTOP_USER_ID}/{keyword}/0/0/0/0/0/0/0/0/0/20"
+        headers = {
+            "Authorization": f"Bearer {CAREERONESTOP_API_KEY}",
+            "Accept": "application/json"  # Specify that we want JSON response
         }
 
         certification_data = fetch_careeronestop_data(api_endpoint, params=query_params)
