@@ -60,23 +60,23 @@ if st.button("Search Certifications"):
                         for agency in agency_list:
                             agency_name = agency.get("Name", "").upper()
                             if agency_name == "In-Demand":
-                                badges_markdown += f'red-badge[:material/local_fire_department: In-Demand]'
+                                badges_markdown += f':red-badge[:material/local_fire_department: In-Demand]'
                             elif agency_name == "MILITARY":
-                                badges_markdown += f'green-badge[:material/military_tech: Military]'
+                                badges_markdown += f':green-badge[:material/military_tech: Military]'
                             elif agency_name == "ANSI":
-                                badges_markdown += f'blue-badge[ANSI]'
+                                badges_markdown += f':blue-badge[ANSI]'
                             elif agency_name == "JOB CORPS":
-                                badges_markdown += f'violet-badge[Job Corps]'
+                                badges_markdown += f':violet-badge[Job Corps]'
                             elif agency_name == "NCCA":
-                                badges_markdown += f'violet-badge[NCCA]'
+                                badges_markdown += f':violet-badge[NCCA]'
                             elif agency_name == "NAM":
-                                badges_markdown += f'violet-badge[NAM]'
+                                badges_markdown += f':violet-badge[NAM]'
                             elif agency_name == "ABNS":
-                                badges_markdown += f'violet-badge[ABNS]'
+                                badges_markdown += f':violet-badge[ABNS]'
                             elif agency_name == "ICAC":
-                                badges_markdown += f'violet-badge[ICAC]'
+                                badges_markdown += f':violet-badge[ICAC]'
                     if badges_markdown:
-                        st.markdown(f"**Accreditation:** {badges_markdown}", unsafe_allow_html=True)
+                        st.markdown(f"{badges_markdown}", unsafe_allow_html=True)
                     st.write(f"Organization: {cert.get('Organization', 'N/A')}")
                     st.write(f"Description: {cert.get('Description', 'N/A')}")
                     if "Url" in cert and cert["Url"]:
