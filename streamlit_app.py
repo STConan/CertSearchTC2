@@ -3,6 +3,9 @@ import requests
 import json
 import os
 
+# Access the API key from Streamlit secrets
+CAREERONESTOP_API_KEY = st.secrets["COS_API_KEY"]
+CAREERONESTOP_USER_ID = st.secrets["COS_USER_ID"]
 BASE_URL = "https://api.careeronestop.org/v1"
 
 # Function to make the API request
@@ -37,9 +40,9 @@ keyword = st.text_input("Keyword:")
 
 if st.button("Search Certifications"):
     if keyword:
-        api_endpoint = f"{BASE_URL}/certificationfinder/{st.secrets["COS_USER_ID"]}/{keyword}/0/0/0/0/0/0/0/0/0/20"
+        api_endpoint = f"{BASE_URL}/certificationfinder/{CAREERONESTOP_USER_ID}}/{keyword}/0/0/0/0/0/0/0/0/0/20"
         headers = {
-            "Authorization": f"Bearer {st.secrets["COS_API_KEY"]}",
+            "Authorization": f"Bearer {CAREERONESTOP_API_KEY}",
             "Accept": "application/json"
         }
 
