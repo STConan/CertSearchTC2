@@ -48,20 +48,21 @@ if st.button("Search Certifications"):
 
         certification_data = fetch_careeronestop_data(api_endpoint, headers=headers)
 
-        if certification_data:
-            if "Certifications" in certification_data and certification_data["Certifications"]:
+        if certification_data and "CertList" in certification_data:
+            cert_list = certification_data["CertList"]
+            if cert_list:
                 st.subheader("Matching Certifications:")
-                for cert in certification_data["Certifications"]:
-                    st.write(f"**{cert.get('Title', 'N/A')}**")
-                    st.write(f"Description: {cert.get('Summary', 'N/A')}")
-                    st.write(f"Provider: {cert.get('OrganizationName', 'N/A')}")
-                    if "CredentialURL" in cert and cert["CredentialURL"]:
-                        st.markdown(f"[More Info]({cert['CredentialURL']})")
+                for cert in cert_list:
+                    st.write(f"**{cert.get('Name', 'N/A')}**")
+                    st.write(f"Organization: {cert.get('Organization', 'N/A')}")
+                    st.write(f"Description: {cert.get('Description', 'N/A')}")
+                    if "Url" in cert and cert["Url"]:
+                        st.markdown(f"[More Info]({cert['Url']})")
                     st.markdown("---")
             else:
                 st.info("No certifications found matching your criteria.")
         else:
-            st.error("Failed to retrieve certification data.")
+            st.error("Failed to retrieve certification data or 'CertList' not found.")
     else:
         st.warning("Please enter a keyword to search for certifications.")
 
