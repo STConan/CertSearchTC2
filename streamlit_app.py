@@ -35,9 +35,7 @@ def fetch_careeronestop_data(api_url, headers=None, params=None):
         return None
 
 st.title("Career Certification Lookup")
-
 keyword = st.text_input("Keyword:")
-
 if st.button("Search Certifications"):
     if keyword:
         api_endpoint = f"{BASE_URL}/certificationfinder/{CAREERONESTOP_USER_ID}/{keyword}/0/0/0/0/0/0/0/0/0/20"
@@ -45,9 +43,7 @@ if st.button("Search Certifications"):
             "Authorization": f"Bearer {CAREERONESTOP_API_KEY}",
             "Accept": "application/json"
         }
-
         certification_data = fetch_careeronestop_data(api_endpoint, headers=headers)
-
         if certification_data and "CertList" in certification_data:
             cert_list = certification_data["CertList"]
             if cert_list:
@@ -60,9 +56,9 @@ if st.button("Search Certifications"):
                         for agency in agency_list:
                             agency_name = agency.get("Name", "").upper()
                             if agency_name == "In-Demand":
-                                badges_markdown += f':red-badge[:material/local_fire_department: In-Demand]'
+                                badges_markdown += f':red-badge[:material/whatshot: In-Demand]'
                             elif agency_name == "MILITARY":
-                                badges_markdown += f':green-badge[:material/military_tech: Military]'
+                                badges_markdown += f':green-badge[:material/pentagon: Military]'
                             elif agency_name == "ANSI":
                                 badges_markdown += f':blue-badge[ANSI]'
                             elif agency_name == "JOB CORPS":
