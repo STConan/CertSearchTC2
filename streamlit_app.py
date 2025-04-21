@@ -9,6 +9,7 @@ CAREERONESTOP_USER_ID = st.secrets["COS_USER_ID"]
 BASE_URL = "https://api.careeronestop.org/v1"
 
 # Function to make the API request
+'''
 def fetch_careeronestop_data(api_url, headers=None, params=None):
     """
     Makes a GET request to the specified CareerOneStop API URL with optional headers and parameters.
@@ -26,6 +27,21 @@ def fetch_careeronestop_data(api_url, headers=None, params=None):
         response = requests.get(api_url, headers=headers, params=params)
         response.raise_for_status()  # Raise an exception for bad status codes (4xx or 5xx)
         data = response.json()
+        return data
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error fetching data from the API: {e}")
+        return None
+    except json.JSONDecodeError as e:
+        st.error(f"Error decoding JSON response: {e}")
+        return None
+'''
+def fetch_careeronestop_data(api_url, headers=None, params=None):
+    try:
+        response = requests.get(api_url, headers=headers, params=params)
+        response.raise_for_status()
+        data = response.json()
+        st.write("Raw API Response:")  # Add this line
+        st.json(data)                   # And this line
         return data
     except requests.exceptions.RequestException as e:
         st.error(f"Error fetching data from the API: {e}")
