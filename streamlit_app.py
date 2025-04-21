@@ -46,7 +46,7 @@ if st.button("Search Certifications"):
             "Accept": "application/json"  # Specify that we want JSON response
         }
 
-        certification_data = fetch_careeronestop_data(api_endpoint, params=query_params)
+        certification_data = fetch_careeronestop_data(api_endpoint, headers=headers)
 
         if certification_data:
             if "Certifications" in certification_data and certification_data["Certifications"]:
