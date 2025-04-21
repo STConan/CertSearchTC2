@@ -40,7 +40,7 @@ keyword = st.text_input("Keyword:")
 
 if st.button("Search Certifications"):
     if keyword:
-        api_endpoint = f"{BASE_URL}/certificationfinder/{CAREERONESTOP_USER_ID}}/{keyword}/0/0/0/0/0/0/0/0/0/20"
+        api_endpoint = f"{BASE_URL}/certificationfinder/{CAREERONESTOP_USER_ID}/{keyword}/0/0/0/0/0/0/0/0/0/20"
         headers = {
             "Authorization": f"Bearer {CAREERONESTOP_API_KEY}",
             "Accept": "application/json"
