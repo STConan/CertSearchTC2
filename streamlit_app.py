@@ -55,7 +55,7 @@ if st.button("Search Certifications"):
                     if agency_list:
                         for agency in agency_list:
                             agency_name = agency.get("Name", "").upper()
-                            if agency_name == "In-Demand":
+                            if agency_name == "IN-DEMAND":
                                 badges_markdown += f':red-badge[:material/whatshot: In-Demand]'
                             elif agency_name == "MILITARY":
                                 badges_markdown += f':green-badge[:material/pentagon: Military]'
