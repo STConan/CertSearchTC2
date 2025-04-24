@@ -85,6 +85,7 @@ st.title("TC2 Hub Toolkit")
 col1, col2 = st.columns([0.65,0.35])
 
 with col1:
+    st.subheader("Certification Lookup")
     keyword = st.text_input("Keyword:")
     if st.button("Search Certifications"):
         if keyword:
@@ -136,7 +137,7 @@ with col1:
             st.warning("Please enter a keyword to search for certifications.")
 
 with col2:
-    st.subheader("Job Postings (RSS Feed)")
+    st.subheader("Job Postings (Handshake)")
     selected_feed = st.selectbox("Select a feed:", list(RSS_FEED_OPTIONS.keys()))
     if selected_feed:
         rss_url = RSS_FEED_OPTIONS[selected_feed]
