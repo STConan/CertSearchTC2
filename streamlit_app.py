@@ -5,6 +5,8 @@ import requests
 import json
 import os
 
+st.set_page_config(layout="wide")
+
 # Access the API key from Streamlit secrets
 CAREERONESTOP_API_KEY = st.secrets["COS_API_KEY"]
 CAREERONESTOP_USER_ID = st.secrets["COS_USER_ID"]
