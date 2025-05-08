@@ -5,12 +5,12 @@ import requests
 import json
 import os
 
-st.set_page_config(layout="wide")
+st.set_page_config(page_title="TC2 Hub - Toolkit", layout="wide")
 
 # Access the API key from Streamlit secrets
 CAREERONESTOP_API_KEY = st.secrets["COS_API_KEY"]
 CAREERONESTOP_USER_ID = st.secrets["COS_USER_ID"]
-BASE_URL = "https://api.careeronestop.org/v1"
+BASE_URL = "https://api.careeronestop.org"
 
 scrollable_block_css = """
 <style>
@@ -82,14 +82,32 @@ def display_scrollable_rss_feed(rss_url, num_entries=5):
     return f'<div class="scrollable-block">{feed_content}</div>'
 
 st.title("TC2 Hub Toolkit")
-col1, col2 = st.columns([0.65,0.35])
 
+st.markdown("<div style='text-align: center;'><h2>Try some of our precurated searches...</h2></div>", unsafe_allow_html=True)
+selected_major = st.selectbox("What's your major", list(RSS_FEED_OPTIONS.keys()))
+
+col1, col2 = st.columns([0.65,0.35])
 with col1:
+    st.subheader("Recommended Certifications")
+    if selected_major:
+        rss_url = RSS_FEED_OPTIONS[selected_major]
+        rss_display = display_scrollable_rss_feed(rss_url) # This function returns the content wrapped in <div class="scrollable-block">
+        st.markdown(rss_display, unsafe_allow_html=True)
+with col2:
+    if selected_major:
+        rss_url = RSS_FEED_OPTIONS[selected_major]
+        rss_display = display_scrollable_rss_feed(rss_url) # This function returns the content wrapped in <div class="scrollable-block">
+        st.markdown(rss_display, unsafe_allow_html=True)
+
+st.markdown("<div style='text-align: center;'><h2>or Do your own</h2></div>", unsafe_allow_html=True)
+
+col3, col4 = st.columns([0.65,0.35])
+with col3:
     st.subheader("Certification Lookup")
     keyword = st.text_input("Keyword:")
     if st.button("Search Certifications"):
         if keyword:
-            api_endpoint = f"{BASE_URL}/certificationfinder/{CAREERONESTOP_USER_ID}/{keyword}/0/0/0/0/0/0/0/0/0/20"
+            api_endpoint = f"{BASE_URL}/v1/certificationfinder/{CAREERONESTOP_USER_ID}/{keyword}/0/0/0/0/0/0/0/0/0/20"
             headers = {
                 "Authorization": f"Bearer {CAREERONESTOP_API_KEY}",
                 "Accept": "application/json"
@@ -136,7 +154,7 @@ with col1:
         else:
             st.warning("Please enter a keyword to search for certifications.")
 
-with col2:
+with col4:
     st.subheader("Job Postings (Handshake)")
     selected_feed = st.selectbox("Select a feed:", list(RSS_FEED_OPTIONS.keys()))
     if selected_feed:
