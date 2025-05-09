@@ -19,20 +19,8 @@ RSS_FEED_OPTIONS = {
     "Mechanical Engineering Technology 2": st.secrets["RSS_MET_2"]
 }
 
-# Function to make the API request
-def fetch_careeronestop_data(api_url, headers=None, params=None):
-    """
-    Makes a GET request to the specified CareerOneStop API URL with optional headers and parameters.
-
-    Args:
-        api_url (str): The full URL of the CareerOneStop API endpoint.
-        headers (dict, optional): A dictionary of HTTP headers to include in the request. Defaults to None.
-        params (dict, optional): A dictionary of query parameters to include in the request. Defaults to None.
-
-    Returns:
-        dict or None: The JSON response from the API as a Python dictionary,
-                     or None if an error occurred.
-    """
+@st.cache_data(ttl=300)
+def fetch_careeronestop_data(api_url, headers=None, params=None):     #Function to query API for Certs
     try:
         response = requests.get(api_url, headers=headers, params=params)
         response.raise_for_status()
@@ -45,14 +33,14 @@ def fetch_careeronestop_data(api_url, headers=None, params=None):
         st.error(f"Error decoding JSON response: {e}")
         return None
 
-def display_rss_feed(rss_url, num_entries=5):
+def display_rss_feed(rss_url): #Function to display RSS Feed
     feed = feedparser.parse(rss_url)
     feed_content = ""
     if feed.get('bozo') == 1:
         feed_content = f"<p style='color: red;'>Error fetching or parsing RSS feed: {feed.get('bozo_exception')}</p>"
     else:
         feed_content += f"<h3>{feed.get('feed', {}).get('title', 'RSS Feed')}</h3>"
-        for entry in feed.entries[:num_entries]:
+        for entry in feed.entries:
             title = entry.get('title', 'No Title')
             link = entry.get('link', '#')
             description = entry.get('description', 'No Description')
@@ -80,14 +68,14 @@ with col1:
     with st.container(height=500):
         if selected_major:
             rss_url = RSS_FEED_OPTIONS[selected_major]
-            rss_display = display_rss_feed(rss_url) # This function returns the content wrapped in <div class="scrollable-block">
+            rss_display = display_rss_feed(rss_url)
             st.markdown(rss_display, unsafe_allow_html=True)
 with col2:
     st.subheader("Related Jobs")
     with st.container(height=500):
         if selected_major:
             rss_url = RSS_FEED_OPTIONS[selected_major]
-            rss_display = display_rss_feed(rss_url) # This function returns the content wrapped in <div class="scrollable-block">
+            rss_display = display_rss_feed(rss_url) 
             st.markdown(rss_display, unsafe_allow_html=True)
 
 st.markdown("<div style='text-align: center;'><h2>or Do your own</h2></div>", unsafe_allow_html=True)
