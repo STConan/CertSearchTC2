@@ -66,15 +66,14 @@ selected_major = st.selectbox("What's your major", list(RSS_FEED_OPTIONS.keys())
 col1, col2 = st.columns([0.65,0.35])
 with col1:
     st.subheader("Recommended Certifications")
-    with st.container(height=500):
+    with st.container(height=750):
         if selected_major:
             certifications_for_major = certification_details[selected_major]
 
             for cert_name, cert_info in certifications_for_major.items():
                 st.subheader(cert_name)
                 st.write(f"**Description:** {cert_info['description']}")
-                st.write(f"**Certifying Organization:** {cert_info['certifying_organization']}")
-                st.markdown(f"**Organization Website:** [{cert_info['certifying_organization']}]({cert_info['organization_url']})")
+                st.markdown(f"**Certifying Organization:** [{cert_info['certifying_organization']}]({cert_info['organization_url']})")
 
                 st.subheader("Certification Details")
                 for detail, value in cert_info['details'].items():
@@ -93,11 +92,12 @@ with col1:
             st.info("Please select a department to view its certifications.")
 with col2:
     st.subheader("Related Jobs")
-    with st.container(height=500):
+    with st.container(height=750):
         if selected_major:
             rss_url = RSS_FEED_OPTIONS[selected_major]
             rss_display = display_rss_feed(rss_url) 
             st.markdown(rss_display, unsafe_allow_html=True)
+st.markdown("---")
 
 st.markdown("<div style='text-align: center;'><h2>or Do your own</h2></div>", unsafe_allow_html=True)
 
@@ -106,7 +106,7 @@ with col3:
     st.subheader("Certification Lookup")
     keyword = st.text_input("Keyword:")
     if st.button("Search Certifications"):
-        with st.container(height=500):
+        with st.container(height=750):
             if keyword:
                 api_endpoint = f"{BASE_URL}/v1/certificationfinder/{CAREERONESTOP_USER_ID}/{keyword}/0/0/0/0/0/0/0/0/0/20"
                 headers = {
@@ -158,7 +158,7 @@ with col3:
 with col4:
     st.subheader("Job Postings (Handshake)")
     selected_feed = st.selectbox("Select a feed:", list(RSS_FEED_OPTIONS.keys()))
-    with st.container(height=500):
+    with st.container(height=750):
         if selected_feed:
             rss_url = RSS_FEED_OPTIONS[selected_feed]
             rss_display = display_rss_feed(rss_url) # This function returns the content wrapped in <div class="scrollable-block">
