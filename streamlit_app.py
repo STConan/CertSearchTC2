@@ -4,6 +4,7 @@ import datetime
 import requests
 import json
 import os
+from preprocessed_cert_data import certification_details
 
 st.set_page_config(page_title="TC2 Hub - Toolkit", layout="wide")
 
@@ -67,9 +68,29 @@ with col1:
     st.subheader("Recommended Certifications")
     with st.container(height=500):
         if selected_major:
-            rss_url = RSS_FEED_OPTIONS[selected_major]
-            rss_display = display_rss_feed(rss_url)
-            st.markdown(rss_display, unsafe_allow_html=True)
+            certifications_for_major = certification_details[selected_major]
+
+            for cert_name, cert_info in certifications_in_department.items():
+                st.subheader(cert_name)
+                st.write(f"**Description:** {cert_info['description']}")
+                st.write(f"**Certifying Organization:** {cert_info['certifying_organization']}")
+                st.markdown(f"**Organization Website:** [{cert_info['certifying_organization']}]({cert_info['organization_url']})")
+
+                st.subheader("Certification Details")
+                for detail, value in cert_info['details'].items():
+                    st.write(f"- **{detail}**: {value}")
+
+                if cert_info['exam_details']:
+                    st.subheader("Exam Details")
+                    st.write(cert_info['exam_details'])
+
+                if cert_info['more_info_url']:
+                    st.subheader("More Information")
+                    st.markdown(f"[More on {cert_name}]({cert_info['more_info_url']})")
+
+                st.markdown("---")
+        else:
+            st.info("Please select a department to view its certifications.")
 with col2:
     st.subheader("Related Jobs")
     with st.container(height=500):
