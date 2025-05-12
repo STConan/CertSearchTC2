@@ -70,7 +70,7 @@ with col1:
         if selected_major:
             certifications_for_major = certification_details[selected_major]
 
-            for cert_name, cert_info in certifications_in_department.items():
+            for cert_name, cert_info in certifications_for_major.items():
                 st.subheader(cert_name)
                 st.write(f"**Description:** {cert_info['description']}")
                 st.write(f"**Certifying Organization:** {cert_info['certifying_organization']}")
